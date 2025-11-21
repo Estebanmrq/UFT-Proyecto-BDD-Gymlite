@@ -1,0 +1,283 @@
+--
+-- Archivo generado con SQLiteStudio v3.4.17 el dom. oct. 12 11:54:55 2025
+--
+-- Codificaci�n de texto usada: System
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Tabla: Clase
+CREATE TABLE IF NOT EXISTS Clase (
+    id_clase INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_entrenador INTEGER NOT NULL,
+    id_tipo INTEGER NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    fecha_hora DATETIME NOT NULL,
+    duracion_min INTEGER NOT NULL,
+    cupo_max INTEGER NOT NULL,
+    FOREIGN KEY (id_entrenador) REFERENCES Entrenador(id_entrenador) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (id_tipo) REFERENCES Tipo(id_tipo) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CHECK (duracion_min > 0),
+    CHECK (cupo_max > 0)
+);
+INSERT INTO Clase (id_clase, id_entrenador, id_tipo, nombre, descripcion, fecha_hora, duracion_min, cupo_max) VALUES (1, 1, 2, 'Spinning Matutino', 'Clase de spinning nivel intermedio', '2025-10-15 08:00:00', 45, 25);
+INSERT INTO Clase (id_clase, id_entrenador, id_tipo, nombre, descripcion, fecha_hora, duracion_min, cupo_max) VALUES (2, 3, 1, 'Funcional Tarde', 'Entrenamiento funcional para todos', '2025-10-15 18:00:00', 60, 20);
+INSERT INTO Clase (id_clase, id_entrenador, id_tipo, nombre, descripcion, fecha_hora, duracion_min, cupo_max) VALUES (3, 3, 3, 'HIIT Extremo', 'Entrenamiento de alta intensidad', '2025-10-16 19:00:00', 45, 15);
+INSERT INTO Clase (id_clase, id_entrenador, id_tipo, nombre, descripcion, fecha_hora, duracion_min, cupo_max) VALUES (4, 1, 2, 'Spinning Noche', 'Clase de spinning avanzada', '2025-10-16 20:00:00', 50, 25);
+
+-- Tabla: Entrenador
+CREATE TABLE IF NOT EXISTS Entrenador (
+    id_entrenador INTEGER PRIMARY KEY AUTOINCREMENT,
+    RUT VARCHAR(12) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    telefono VARCHAR(12),
+    fecha_nac DATE NOT NULL,
+    especialidad VARCHAR(80) NOT NULL,
+    CHECK (LENGTH(RUT) >= 9)
+);
+INSERT INTO Entrenador (id_entrenador, RUT, nombre, apellido, telefono, fecha_nac, especialidad) VALUES (1, '20111222-3', 'Juan', 'Pérez', '933445566', '1985-03-15', 'Spinning');
+INSERT INTO Entrenador (id_entrenador, RUT, nombre, apellido, telefono, fecha_nac, especialidad) VALUES (2, '20222333-4', 'María', 'González', '944556677', '1990-07-22', 'Funcional');
+INSERT INTO Entrenador (id_entrenador, RUT, nombre, apellido, telefono, fecha_nac, especialidad) VALUES (3, '20333444-5', 'Carlos', 'Ruiz', '955667788', '1988-11-30', 'CrossFit');
+
+-- Tabla: Pago
+CREATE TABLE IF NOT EXISTS Pago (
+    id_pago INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_suscripcion INTEGER NOT NULL,
+    fecha_pago DATE NOT NULL DEFAULT (DATE('now')),
+    monto DECIMAL(10,2) NOT NULL,
+    metodo_pago VARCHAR(50) NOT NULL,
+    estado_pago VARCHAR(20) NOT NULL DEFAULT 'completado',
+    num_comprobante VARCHAR(50),
+    FOREIGN KEY (id_suscripcion) REFERENCES Suscripcion(id_suscripcion) ON DELETE CASCADE ON UPDATE CASCADE,
+    CHECK (monto > 0),
+    CHECK (metodo_pago IN ('transferencia', 'webpay', 'tarjeta', 'efectivo')),
+    CHECK (estado_pago IN ('pendiente', 'completado', 'rechazado'))
+);
+INSERT INTO Pago (id_pago, id_suscripcion, fecha_pago, monto, metodo_pago, estado_pago, num_comprobante) VALUES (1, 1, '2024-10-01', 210000, 'transferencia', 'completado', 'COMP-2024-001');
+INSERT INTO Pago (id_pago, id_suscripcion, fecha_pago, monto, metodo_pago, estado_pago, num_comprobante) VALUES (2, 2, '2025-10-01', 24500, 'webpay', 'completado', 'COMP-2025-002');
+INSERT INTO Pago (id_pago, id_suscripcion, fecha_pago, monto, metodo_pago, estado_pago, num_comprobante) VALUES (3, 3, '2025-09-01', 66000, 'efectivo', 'completado', 'COMP-2025-003');
+INSERT INTO Pago (id_pago, id_suscripcion, fecha_pago, monto, metodo_pago, estado_pago, num_comprobante) VALUES (4, 4, '2025-08-01', 120000, 'transferencia', 'completado', 'COMP-2025-004');
+INSERT INTO Pago (id_pago, id_suscripcion, fecha_pago, monto, metodo_pago, estado_pago, num_comprobante) VALUES (5, 5, '2025-09-15', 24500, 'tarjeta', 'completado', 'COMP-2025-005');
+
+-- Tabla: Plan
+CREATE TABLE IF NOT EXISTS Plan (
+    id_plan INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_plan VARCHAR(50) NOT NULL UNIQUE,
+    precio DECIMAL(10,2) NOT NULL,
+    duracion_meses INTEGER NOT NULL,
+    limite_clases INTEGER,
+    beneficio TEXT,
+    descripcion TEXT,
+    CHECK (precio > 0),
+    CHECK (duracion_meses > 0),
+    CHECK (limite_clases IS NULL OR limite_clases > 0)
+);
+INSERT INTO Plan (id_plan, nombre_plan, precio, duracion_meses, limite_clases, beneficio, descripcion) VALUES (1, 'Plan Anual', 17500, 12, NULL, 'Matrícula gratis|Personal trainer|Evaluación completa|2 meses de regalo', 'Plan anual con descuento especial');
+INSERT INTO Plan (id_plan, nombre_plan, precio, duracion_meses, limite_clases, beneficio, descripcion) VALUES (2, 'Plan Mensual', 24500, 1, 20, 'Matrícula gratis|Personal trainer|Evaluación InBody', 'Plan mensual con cargo automático');
+INSERT INTO Plan (id_plan, nombre_plan, precio, duracion_meses, limite_clases, beneficio, descripcion) VALUES (3, 'Plan Trimestral', 22000, 3, 20, 'Matrícula gratis|Evaluación y programa', 'Plan por 3 meses');
+INSERT INTO Plan (id_plan, nombre_plan, precio, duracion_meses, limite_clases, beneficio, descripcion) VALUES (4, 'Plan Semestral', 20000, 6, NULL, 'Matrícula gratis|2 sesiones personal trainer', 'Plan de 6 meses');
+
+-- Tabla: Reserva
+CREATE TABLE IF NOT EXISTS Reserva (
+    id_reserva INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_socio INTEGER NOT NULL,
+    id_clase INTEGER NOT NULL,
+    fecha_reserva DATETIME NOT NULL DEFAULT (DATETIME('now')),
+    estado_reserva VARCHAR(20) NOT NULL DEFAULT 'confirmada',
+    asistio INTEGER DEFAULT 0,
+    FOREIGN KEY (id_socio) REFERENCES Socio(id_socio) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_clase) REFERENCES Clase(id_clase) ON DELETE CASCADE ON UPDATE CASCADE,
+    CHECK (estado_reserva IN ('pendiente', 'confirmada', 'cancelada')),
+    CHECK (asistio IN (0, 1)),
+    UNIQUE (id_socio, id_clase)
+);
+INSERT INTO Reserva (id_reserva, id_socio, id_clase, fecha_reserva, estado_reserva, asistio) VALUES (1, 1, 1, '2025-10-12 03:26:36', 'confirmada', 0);
+INSERT INTO Reserva (id_reserva, id_socio, id_clase, fecha_reserva, estado_reserva, asistio) VALUES (2, 2, 1, '2025-10-12 03:26:36', 'confirmada', 0);
+INSERT INTO Reserva (id_reserva, id_socio, id_clase, fecha_reserva, estado_reserva, asistio) VALUES (3, 3, 2, '2025-10-12 03:26:36', 'confirmada', 0);
+INSERT INTO Reserva (id_reserva, id_socio, id_clase, fecha_reserva, estado_reserva, asistio) VALUES (4, 4, 3, '2025-10-12 03:26:36', 'pendiente', 0);
+INSERT INTO Reserva (id_reserva, id_socio, id_clase, fecha_reserva, estado_reserva, asistio) VALUES (5, 1, 4, '2025-10-12 03:26:36', 'confirmada', 0);
+
+-- Tabla: Socio
+CREATE TABLE IF NOT EXISTS Socio (
+    id_socio INTEGER PRIMARY KEY AUTOINCREMENT,
+    RUT VARCHAR(12) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    apellido_p VARCHAR(50) NOT NULL,
+    apellido_m VARCHAR(50),
+    fecha_nac DATE NOT NULL,
+    telefono VARCHAR(12),
+    direccion VARCHAR(100),
+    CHECK (LENGTH(RUT) >= 9)
+);
+INSERT INTO Socio (id_socio, RUT, nombre, apellido_p, apellido_m, fecha_nac, telefono, direccion) VALUES (1, '12345678-9', 'Pedro', 'Sánchez', 'García', '1990-05-15', '912345678', 'Av. Providencia 123');
+INSERT INTO Socio (id_socio, RUT, nombre, apellido_p, apellido_m, fecha_nac, telefono, direccion) VALUES (2, '98765432-1', 'María', 'López', 'Fernández', '1985-08-22', '987654321', 'Calle Los Alerces 456');
+INSERT INTO Socio (id_socio, RUT, nombre, apellido_p, apellido_m, fecha_nac, telefono, direccion) VALUES (3, '11223344-5', 'Carlos', 'Rodríguez', 'Martínez', '1992-11-30', '923456789', 'Pasaje Las Rosas 789');
+INSERT INTO Socio (id_socio, RUT, nombre, apellido_p, apellido_m, fecha_nac, telefono, direccion) VALUES (4, '55667788-9', 'Ana', 'González', 'Torres', '1988-03-12', '945678901', 'Av. Libertador 321');
+INSERT INTO Socio (id_socio, RUT, nombre, apellido_p, apellido_m, fecha_nac, telefono, direccion) VALUES (5, '99887766-5', 'Luis', 'Morales', 'Silva', '1995-07-25', '956789012', 'Calle Nueva 654');
+
+-- Tabla: Suscripcion
+CREATE TABLE IF NOT EXISTS Suscripcion (
+    id_suscripcion INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_socio INTEGER NOT NULL,
+    id_plan INTEGER NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    estado_sus VARCHAR(20) NOT NULL DEFAULT 'activa',
+    FOREIGN KEY (id_socio) REFERENCES Socio(id_socio) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_plan) REFERENCES Plan(id_plan) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CHECK (estado_sus IN ('activa', 'vencida', 'cancelada')),
+    CHECK (fecha_fin > fecha_inicio)
+);
+INSERT INTO Suscripcion (id_suscripcion, id_socio, id_plan, fecha_inicio, fecha_fin, estado_sus) VALUES (1, 1, 1, '2024-10-01', '2025-10-01', 'vencida');
+INSERT INTO Suscripcion (id_suscripcion, id_socio, id_plan, fecha_inicio, fecha_fin, estado_sus) VALUES (2, 2, 2, '2025-10-01', '2025-11-01', 'activa');
+INSERT INTO Suscripcion (id_suscripcion, id_socio, id_plan, fecha_inicio, fecha_fin, estado_sus) VALUES (3, 3, 3, '2025-09-01', '2025-12-01', 'activa');
+INSERT INTO Suscripcion (id_suscripcion, id_socio, id_plan, fecha_inicio, fecha_fin, estado_sus) VALUES (4, 4, 4, '2025-08-01', '2026-02-01', 'activa');
+INSERT INTO Suscripcion (id_suscripcion, id_socio, id_plan, fecha_inicio, fecha_fin, estado_sus) VALUES (5, 5, 2, '2025-09-15', '2025-10-15', 'activa');
+
+-- Tabla: Tipo
+CREATE TABLE IF NOT EXISTS Tipo (
+    id_tipo INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    descripcion TEXT
+);
+INSERT INTO Tipo (id_tipo, nombre, descripcion) VALUES (1, 'Funcional', 'Entrenamiento funcional con peso corporal');
+INSERT INTO Tipo (id_tipo, nombre, descripcion) VALUES (2, 'Spinning', 'Ciclismo indoor de alta intensidad');
+INSERT INTO Tipo (id_tipo, nombre, descripcion) VALUES (3, 'HIIT', 'High Intensity Interval Training');
+
+-- �ndice: idx_clase_entrenador
+CREATE INDEX IF NOT EXISTS idx_clase_entrenador ON Clase(id_entrenador);
+
+-- �ndice: idx_clase_fecha
+CREATE INDEX IF NOT EXISTS idx_clase_fecha ON Clase(fecha_hora);
+
+-- �ndice: idx_clase_tipo
+CREATE INDEX IF NOT EXISTS idx_clase_tipo ON Clase(id_tipo);
+
+-- �ndice: idx_entrenador_rut
+CREATE INDEX IF NOT EXISTS idx_entrenador_rut ON Entrenador(RUT);
+
+-- �ndice: idx_pago_suscripcion
+CREATE INDEX IF NOT EXISTS idx_pago_suscripcion ON Pago(id_suscripcion);
+
+-- �ndice: idx_reserva_clase
+CREATE INDEX IF NOT EXISTS idx_reserva_clase ON Reserva(id_clase);
+
+-- �ndice: idx_reserva_socio
+CREATE INDEX IF NOT EXISTS idx_reserva_socio ON Reserva(id_socio);
+
+-- �ndice: idx_suscripcion_plan
+CREATE INDEX IF NOT EXISTS idx_suscripcion_plan ON Suscripcion(id_plan);
+
+-- �ndice: idx_suscripcion_socio
+CREATE INDEX IF NOT EXISTS idx_suscripcion_socio ON Suscripcion(id_socio);
+
+-- Vista: v_historial_pagos
+CREATE VIEW IF NOT EXISTS v_historial_pagos AS
+SELECT 
+    pag.id_pago,
+    s.RUT,
+    s.nombre || ' ' || s.apellido_p AS nombre_socio,
+    p.nombre_plan,
+    pag.fecha_pago,
+    pag.monto,
+    pag.metodo_pago,
+    pag.estado_pago
+FROM Pago pag
+INNER JOIN Suscripcion sus ON pag.id_suscripcion = sus.id_suscripcion
+INNER JOIN Socio s ON sus.id_socio = s.id_socio
+INNER JOIN Plan p ON sus.id_plan = p.id_plan
+ORDER BY pag.fecha_pago DESC;
+
+-- Vista: v_socios_activos
+CREATE VIEW IF NOT EXISTS v_socios_activos AS
+WITH ult AS (
+  SELECT id_socio, MAX(fecha_fin) AS fecha_fin_max
+  FROM Suscripcion
+  GROUP BY id_socio
+)
+SELECT 
+    s.id_socio,
+    s.RUT,
+    s.nombre || ' ' || s.apellido_p AS nombre_completo,
+    s.telefono,
+    p.nombre_plan,
+    sus.fecha_inicio,
+    sus.fecha_fin,
+    'Vigente' AS vigencia
+FROM ult
+JOIN Suscripcion sus
+  ON sus.id_socio = ult.id_socio AND sus.fecha_fin = ult.fecha_fin_max
+JOIN Socio s ON s.id_socio = sus.id_socio
+JOIN Plan  p ON p.id_plan = sus.id_plan
+WHERE sus.estado_sus = 'activa'
+  AND DATE(sus.fecha_fin) >= DATE('now','localtime');
+
+-- Vista: v_socios_inactivo
+CREATE VIEW IF NOT EXISTS v_socios_inactivo AS
+WITH ult AS (
+  SELECT id_socio, MAX(fecha_fin) AS fecha_fin_max
+  FROM Suscripcion
+  GROUP BY id_socio
+)
+SELECT 
+    s.id_socio,
+    s.RUT,
+    s.nombre || ' ' || s.apellido_p AS nombre_completo,
+    s.telefono,
+    p.nombre_plan,
+    sus.fecha_inicio,
+    sus.fecha_fin,
+    'Inactiva' AS inactiva
+FROM ult
+JOIN Suscripcion sus
+  ON sus.id_socio = ult.id_socio AND sus.fecha_fin = ult.fecha_fin_max
+JOIN Socio s ON s.id_socio = sus.id_socio
+JOIN Plan  p ON p.id_plan = sus.id_plan
+WHERE sus.estado_sus = 'vencida'
+   OR DATE(sus.fecha_fin) < DATE('now','localtime');
+
+-- Vista: v_socios_inactivos
+CREATE VIEW IF NOT EXISTS v_socios_inactivos AS
+SELECT 
+    s.id_socio,
+    s.RUT,
+    s.nombre || ' ' || s.apellido_p AS nombre_completo,
+    s.telefono,
+    p.nombre_plan,
+    sus.fecha_inicio,
+    sus.fecha_fin,
+    CASE 
+        WHEN sus.fecha_fin >= DATE('now') THEN 'Vencida'
+        ELSE 'Vigente'
+    END AS Vencida
+FROM Socio s
+INNER JOIN Suscripcion sus ON s.id_socio = sus.id_socio
+INNER JOIN Plan p ON sus.id_plan = p.id_plan
+WHERE sus.estado_sus = 'inactiva';
+
+-- Disparador: trg_entrenador_fecha_ins
+CREATE TRIGGER IF NOT EXISTS trg_entrenador_fecha_ins
+BEFORE INSERT ON Entrenador
+FOR EACH ROW
+BEGIN
+    SELECT CASE
+        WHEN DATE(NEW.fecha_nac) >= DATE('now','localtime') THEN
+            RAISE(ABORT, 'fecha_nac no puede ser hoy ni futura')
+    END;
+END;
+
+-- Disparador: trg_entrenador_fecha_upd
+CREATE TRIGGER IF NOT EXISTS trg_entrenador_fecha_upd
+BEFORE UPDATE OF fecha_nac ON Entrenador
+FOR EACH ROW
+BEGIN
+    SELECT CASE
+        WHEN DATE(NEW.fecha_nac) >= DATE('now','localtime') THEN
+            RAISE(ABORT, 'fecha_nac no puede ser hoy ni futura')
+    END;
+END;
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;

@@ -1,0 +1,42 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Objetivos del Proyecto}{2}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Objetivo General}{2}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Objetivos Específicos}{2}{subsubsection.1.1.2}%
+\contentsline {section}{\numberline {2}Definición del Problema}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Descripción del problema }{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Necesidades y Desafíos Detectados}{4}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Requisitos del Sistema}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Requisitos Funcionales}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Requisitos No Funcionales}{6}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Modelado de la Base de Datos}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Modelo Entidad–Relación}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Modelo Relacional}{9}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Normalización y Claves}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Normalización del Modelo Físico}{10}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Definición de Claves, Restricciones de Integridad y Optimizaciones}{11}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Implementación del Modelo Físico}{12}{section.6}%
+\contentsline {paragraph}{Entidad Socio.}{12}{section*.2}%
+\contentsline {paragraph}{Entidad Suscripción.}{13}{section*.3}%
+\contentsline {paragraph}{Entidad Clase:}{14}{section*.4}%
+\contentsline {paragraph}{Entidad Plan.}{15}{section*.5}%
+\contentsline {paragraph}{Entidad Reserva y Triggers de Control.}{16}{section*.6}%
+\contentsline {paragraph}{Entidad Pago.}{17}{section*.7}%
+\contentsline {paragraph}{Entidad Tipo y Entrenador.}{18}{section*.8}%
+\contentsline {subsection}{\numberline {6.1}Vistas del Sistema}{19}{subsection.6.1}%
+\contentsline {paragraph}{Historial de pagos:}{19}{section*.9}%
+\contentsline {paragraph}{Socios Vigentes y No Vigentes:}{19}{section*.10}%
+\contentsline {subsection}{\numberline {6.2}Carga de Datos Dinámica}{19}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Desarrollo de Funcionalidades Básicas e Interfaz}{20}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Validación de las operaciones CRUD}{20}{subsection.7.1}%
+\contentsline {section}{\numberline {8}Interfaz Gráfica de Usuario (GUI)}{22}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Dashboard Gerencial}{22}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Módulo de Gestión de Socios}{24}{subsection.8.2}%
+\contentsline {subsubsection}{\numberline {8.2.1}Registro y Mantenimiento}{24}{subsubsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.3}Gestión de Reservas y Clases}{26}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Módulo de Pagos y Caja}{26}{subsection.8.4}%
+\contentsline {section}{\numberline {A}Manual de Instalación y Despliegue}{28}{appendix.Alph1}%
+\contentsline {subsection}{\numberline {A.1}Requisitos Previos}{28}{subsection.Alph1.1}%
+\contentsline {subsection}{\numberline {A.2}Instalación de Dependencias}{28}{subsection.Alph1.2}%
+\contentsline {subsection}{\numberline {A.3}Ejecución y Auto-Configuración}{28}{subsection.Alph1.3}%
+\contentsline {section}{\numberline {B}Conclusión}{29}{appendix.Alph2}%

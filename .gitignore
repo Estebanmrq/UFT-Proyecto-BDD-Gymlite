@@ -205,3 +205,17 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- Streamlit Specifics ---
+
+# Secrets (API keys, passwords) - TRÈS IMPORTANT
+# Ne jamais commiter ce fichier !
+.streamlit/secrets.toml
+.streamlit/credentials.toml
+
+# Si tu as des fichiers de données lourds ou locaux que tu ne veux pas sur GitHub
+# (Décommente selon tes besoins)
+# *.csv
+# *.parquet
+# data/
+# dataset/

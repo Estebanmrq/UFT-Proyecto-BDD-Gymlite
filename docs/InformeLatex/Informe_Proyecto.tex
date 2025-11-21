@@ -1,0 +1,859 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[none]{hyphenat}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{ragged2e}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{fancyhdr}
+\usepackage{parskip} 
+\usepackage{enumitem}
+\usepackage[spanish]{babel}
+\setlist[description]{style=nextline,leftmargin=0cm,labelindent=0cm}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\renewcommand{\algorithmcfname}{Algoritmo}
+\pagestyle{plain}
+\geometry{margin=2.5cm}
+
+
+\fancypagestyle{conlogo}{
+	\fancyhf{}
+	\fancyhead[L]{%
+		\begin{minipage}[t]{0.20\textwidth}
+			\vspace*{-0.8cm}
+			\includegraphics[width=1.10\textwidth]{imagenes/logo_uft.png}
+		\end{minipage}%
+		\vspace{0.30cm}\\[0.05em]
+		\hrule
+		\vspace*{7cm}
+	}
+	\fancyfoot[C]{\thepage} 
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+\begin{document}
+	
+
+	\thispagestyle{empty}
+
+	\noindent
+	\begin{minipage}[t]{0.56\textwidth}
+		\scriptsize
+		\footnotesize
+		\vspace*{-1.2cm}
+		\textbf{Universidad Finis Terrae}\\
+		\textbf{Curso:} Base de datos \\
+		\textbf{Segundo semestre de 2025}\\[0.2em]
+		\rule{4cm}{0.02pt} \\[0.17em]
+		\textbf{Profesor:} Fernando San Martin\\
+		\textbf{Ayudante:} Juan Eulogio Rivera Vasquez\\
+		\textbf{NRC:} 78092
+	\end{minipage}%
+	\hfill
+	\begin{minipage}[t]{0.38\textwidth}
+		\vspace*{-1.2cm}
+		\includegraphics[width=0.95\textwidth]{imagenes/logo_uft.png}
+	\end{minipage}
+	
+	\vspace{2.2cm}
+	
+	\begin{center}
+		\small
+		Informe Semana 6 - Proyecto Base de datos
+		
+		\vspace{0.5cm}
+		\hrule height 0.7pt
+		\vspace{0.7cm}
+		{\LARGE \textbf{Sistema de Gestión para Gimnasio}}
+		\vspace{0.7cm}
+		\hrule height 0.7pt
+	\end{center}
+	
+	\vspace{1.5cm}
+	
+
+	\noindent
+	\begin{tabularx}{\textwidth}{@{}lX@{}}
+		\textbf{Fecha:} & 23-10-2025 \\
+		
+		\textbf{Autores:} & 
+		\begin{itemize}[leftmargin=0.8em, itemsep=0pt]
+			\item Alan Oliva
+			\item Tomas Tamayo
+			\item Esteban Marques
+		
+		\end{itemize} \\
+		\textbf{Emails:} & ttmayoa@uft.edu , emarques\_@uft.edu , aolivah@uft.edu
+	\end{tabularx}
+	\newpage	
+	\tableofcontents
+	\newpage
+	
+	\newpage
+\clearpage
+\pagestyle{conlogo}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\thispagestyle{conlogo}
+	\vspace*{1.5em}
+	\section{Introducción}
+	\vspace*{1.5em}
+	\begin{minipage}{0.96\textwidth}
+		
+		
+		La gestión eficiente de información constituye un factor crítico para la operación exitosa de cualquier organización de servicios. En el sector de gimnasios y centros de acondicionamiento físico, la administración adecuada de datos relacionados con socios, membresías, pagos, clases y reservas resulta fundamental para garantizar tanto la calidad del servicio como la sostenibilidad del negocio. Sin embargo, muchos establecimientos pequeños y medianos continúan operando mediante sistemas manuales o herramientas no integradas que limitan su capacidad de gestión y comprometen la experiencia del usuario.
+		
+		\par\vspace{1em}
+		
+		El presente proyecto aborda esta problemática mediante el análisis de un caso real: un gimnasio orientado a clases grupales que enfrenta dificultades operativas derivadas de la falta de centralización de su información. El establecimiento ofrece diversas modalidades de entrenamiento —funcional, spinning e HIIT— supervisadas por entrenadores especializados, y administra múltiples planes de membresía con beneficios diferenciados. Actualmente, la gestión de socios, reservas, pagos y programación de clases se realiza mediante métodos fragmentados tales como planillas de Excel, agendas físicas y aplicaciones de mensajería, generando inconsistencias en los registros, dificultades en el seguimiento de pagos y control inadecuado de la disponibilidad de cupos.
+		
+		\par\vspace{1em}
+		
+		Los gimnasios modernos presentan diferentes modelos de funcionamiento. Algunos operan bajo un esquema de acceso libre, donde los usuarios emplean el equipamiento de forma autónoma, mientras que otros, como el caso de estudio, se especializan en clases grupales con sesiones programadas y capacidad limitada de participantes. Este segundo modelo requiere una coordinación más compleja entre disponibilidad de entrenadores, gestión de cupos, validación de membresías activas y registro de asistencia, lo que hace indispensable contar con un sistema de información robusto y confiable.
+		
+		\par\vspace{1em}
+		
+		Ante este escenario, el proyecto propone el diseño e implementación de una base de datos relacional normalizada que permita centralizar la gestión operativa del gimnasio. La solución contempla la automatización de procesos críticos, la garantía de integridad referencial de los datos y el desarrollo de una interfaz de usuario intuitiva que facilite las tareas administrativas. A través de este sistema, se busca mejorar la eficiencia organizacional, reducir errores operativos, fortalecer el control financiero y, en última instancia, optimizar la experiencia de los socios y del personal administrativo.
+		
+	\end{minipage}
+	\newpage
+	
+\subsection{Objetivos del Proyecto}
+	\vspace*{1em}
+	\subsubsection{Objetivo General}
+	
+	Diseñar e implementar una base de datos relacional normalizada hasta la Tercera Forma Normal (3FN) que permita centralizar y automatizar la gestión operativa de un gimnasio orientado a clases grupales, mejorando la eficiencia administrativa, la integridad de los datos y la experiencia de los socios.
+		\vspace*{1em}
+
+	
+\subsubsection{Objetivos Específicos}
+\vspace*{1em}	
+	\begin{itemize}
+	\item \textbf{Modelado de Datos.} 
+	Diseñar un modelo entidad–relación que represente de forma precisa las entidades, atributos y relaciones del gimnasio, garantizando la coherencia lógica del sistema y la correcta correspondencia con los requerimientos funcionales definidos.
+	
+	\item \textbf{Normalización y Diseño Relacional.} 
+	Transformar el modelo conceptual en un esquema relacional normalizado hasta la Tercera Forma Normal (3FN), definiendo claves primarias, foráneas y restricciones de integridad que aseguren la consistencia y eliminación de redundancias.
+	
+	\item \textbf{Implementación de la Base de Datos.} 
+	Crear la estructura física en SQLite mediante sentencias DDL, incorporando tablas, índices y relaciones que permitan almacenar y manipular los datos del gimnasio de manera eficiente y segura.
+	
+	\item \textbf{Gestión de Información Operativa.} 
+	Desarrollar las operaciones esenciales de la base de datos para la administración de socios, planes, suscripciones, pagos, clases y reservas, cumpliendo con las reglas de negocio definidas.
+	
+	\item \textbf{Control Automatizado de Reservas.} 
+	Implementar validaciones automáticas que verifiquen el estado de la suscripción, el límite de clases mensuales y la disponibilidad de cupos antes de confirmar una reserva, asegurando la integridad del proceso y evitando sobrecupos o inconsistencias.
+	
+	\item \textbf{Optimización del Sistema.} 
+	Aplicar mecanismos de integridad referencial, restricciones y consultas optimizadas que garanticen un acceso eficiente y confiable a la información, reduciendo errores y tiempos de respuesta.
+	\end{itemize}
+	
+
+
+
+		
+	\newpage
+	
+	\section{Definición del Problema}
+	
+	\subsection{Descripción del problema }
+	El gimnasio objeto de estudio se caracteriza por ofrecer una amplia variedad de servicios, entre los que se incluyen clases grupales de tipo funcional, spinning e HIIT, además de la supervisión de entrenadores especializados y la administración de diversos planes de membresía. Esta diversidad de actividades implica el manejo de un volumen considerable de información y una estructura de gestión compleja que, en la actualidad, no se encuentra debidamente controlada.
+	
+	\par\vspace{1em}	
+	
+	La administración de los datos relacionados con socios, suscripciones, pagos, reservas y planificación de clases se lleva a cabo mediante procedimientos manuales y herramientas no integradas, tales como planillas de Excel, agendas físicas y aplicaciones de mensajería. La utilización de estos medios fragmentados dificulta la actualización y el acceso a la información, afectando la consistencia y fiabilidad de los registros.
+	
+	\par\vspace{1em}
+		
+	Esta falta de integración provoca múltiples inconvenientes operativos, entre los que destacan la duplicación o pérdida de datos, la dificultad para realizar seguimientos de pagos y la ineficiencia en la gestión de reservas. Asimismo, la disponibilidad de cupos en las clases grupales no se controla de manera precisa, lo que ocasiona tanto sobrecupo como baja ocupación en las sesiones programadas.
+	
+	\par\vspace{1em}
+		
+	El escenario descrito produce una doble insatisfacción: por un lado, de los socios, quienes experimentan una gestión desorganizada del servicio; y por otro, del personal administrativo, que debe operar con sistemas ineficaces y sin trazabilidad. Ante esta problemática, se identifica la necesidad de implementar un sistema unificado sustentado en una base de datos relacional, capaz de gestionar de forma automatizada, coherente y segura todos los procesos vinculados a socios, membresías, pagos, reservas, entrenadores y clases.
+	
+	\newpage
+	\par\vspace{1em}
+
+	\subsection{Necesidades y Desafíos Detectados}
+		\par\vspace{1em}
+	A partir del análisis del sistema actual de gestión del gimnasio, se identificaron diversas dificultades que afectan la eficiencia operativa y la integridad de la información.  
+	\par\vspace{1em}
+	\textbf{Falta de centralización de datos:}  
+	La información se encuentra dispersa en diferentes medios, como planillas de Excel, agendas físicas y aplicaciones de mensajería. Esta fragmentación dificulta la actualización, el acceso y el control de los registros, generando inconsistencias cuando distintos miembros del personal modifican la información de manera simultánea sin mecanismos de validación o sincronización.  
+		\par\vspace{1em}
+	\textbf{Errores frecuentes en reservas y pagos:}  
+	La ausencia de controles automáticos provoca sobrecupos, omisiones en los pagos y confusiones respecto a la vigencia de las membresías. Al no existir un sistema centralizado, se posibilita la confirmación de reservas para socios con membresías vencidas o con cupos agotados, lo que deriva en conflictos administrativos y en un deterioro de la experiencia del usuario.  
+		\par\vspace{1em}
+	\textbf{Limitada trazabilidad y seguridad de los datos:}  
+	No se dispone de mecanismos de respaldo automatizado ni de una gestión adecuada de los permisos de acceso a información sensible de los socios. Esta situación compromete tanto la operatividad como la privacidad de los datos. Asimismo, la carencia de registros históricos confiables impide realizar auditorías, identificar tendencias y recuperar información ante eventuales pérdidas o errores.  
+	
+		\newpage
+	\section{Requisitos del Sistema}
+	
+	\subsection{Requisitos Funcionales}
+			\par\vspace{0.5em}
+	\begin{description}
+		
+		\item[RF-01: Gestión de Socios]  
+		El sistema deberá registrar socios con información como RUT (identificador único), nombre, datos de contacto y fecha de nacimiento. También deberá permitir modificar datos existentes, consultar historial de membresías, pagos y actividades, y dar de baja a socios manteniendo su historial para futura referencia.
+
+		\item[RF-02: Gestión de Planes de Membresía] 
+		El sistema deberá administrar distintos planes de membresía, diferenciados por precio, duración y beneficios. Cada socio podrá tener una única membresía activa simultáneamente. El sistema deberá registrar las fechas de inicio y fin, y mostrar el estado de la membresía (activa o vencida).
+
+		\item[RF-03: Pagos Asociados a Membresía] 
+		El sistema deberá registrar pagos efectuados por socios, indicando fecha, monto, medio de pago y estado. Cada pago estará vinculado a la activación o renovación de la membresía, asegurando trazabilidad del historial financiero. El sistema deberá permitir renovar una membresía al registrar un nuevo pago, actualizando automáticamente las fechas de vigencia y manteniendo el historial de renovaciones.
+
+		\item[RF-04: Gestión de Entrenadores] 
+		El sistema deberá registrar entrenadores con su perfil profesional y especialidad, permitiendo asignarlos a clases en función de su disponibilidad y consultar el listado de clases en las que participan.
+
+		\item[RF-05: Gestión de Clases Grupales]
+		
+		El sistema deberá permitir programar clases grupales definiendo tipo de actividad (funcional, spinning, HIIT), horario, duración, cupo máximo y entrenador asignado. Deberá ser posible crear, modificar o cancelar clases según sea necesario, y consultar la disponibilidad de cupos en tiempo real.
+
+		\item[RF-06: Sistema de Reservas y Asistencia]
+		
+		El sistema deberá permitir a los socios reservar clases grupales, validando automáticamente que la membresía esté activa, no se haya superado el límite de clases mensuales según el plan contratado, y existan cupos disponibles en la clase seleccionada. Además, deberá permitir cancelar reservas con anticipación definida y registrar la asistencia efectiva de los socios a cada clase, vinculando esta información con las reservas realizadas.
+
+		\item[RF-07: Consultas y Reportes]
+		El sistema deberá generar consultas y reportes analíticos para apoyar la toma de decisiones, incluyendo reportes de asistencia por clase y período, ingresos mensuales discriminados por tipo de membresía, estadísticas sobre clases más populares y horarios de mayor demanda, listado de socios con pagos pendientes o en estado de morosidad, y proyección de renovaciones de membresía para el mes en curso.
+		
+	\end{description}	
+		\newpage
+
+\subsection{Requisitos No Funcionales}
+
+\begin{description}
+		\par\vspace{1em}
+	\item[RNF-01: Usabilidad]  
+	El sistema deberá disponer de una interfaz clara, ordenada e intuitiva que facilite la ejecución de las operaciones principales (registro de socios, creación de reservas y consulta de pagos) por parte del personal administrativo sin requerir capacitación extensa. Al menos el 80\% de las tareas frecuentes deberán completarse en tres clics o menos desde el menú principal. Los mensajes de error deberán ser comprensibles y orientarán al usuario respecto a la acción necesaria para corregir el problema.  
+		\par\vspace{1em}
+	\item[RNF-02: Rendimiento]  
+	El sistema deberá responder a consultas básicas —como la verificación de membresías activas, la disponibilidad de clases o la búsqueda de socios— en un tiempo inferior a tres segundos en un equipo con especificaciones estándar. Los reportes simples no deberán superar los cinco segundos de generación con un volumen de hasta 200 socios y 50 clases mensuales. El diseño deberá contemplar la escalabilidad necesaria para mantener el rendimiento ante un aumento en la cantidad de datos.  
+		\par\vspace{1em}
+	\item[RNF-03: Integridad de Datos]  
+	Deberán implementarse restricciones de integridad referencial mediante el uso de claves primarias y foráneas. El sistema evitará inconsistencias como pagos sin socio, reservas asociadas a clases inexistentes o membresías asignadas a usuarios no registrados. Se validarán campos obligatorios y formatos esenciales, tales como la estructura correcta del RUT.  
+		\par\vspace{1em}
+	\item[RNF-04: Confiabilidad]  
+	Las operaciones críticas, como los pagos y las reservas, deberán ejecutarse dentro de transacciones SQL (\texttt{BEGIN}, \texttt{COMMIT}, \texttt{ROLLBACK}) para garantizar que, ante un error, los cambios no se almacenen de forma parcial. El sistema deberá contemplar la creación de copias de seguridad manuales del archivo de base de datos SQLite, las cuales serán responsabilidad del administrador, realizándose al menos una vez por semana.  
+		\par\vspace{1em}
+	\item[RNF-05: Mantenibilidad]  
+	El código SQL deberá incluir comentarios explicativos sobre la estructura de tablas, vistas y consultas complejas. Se utilizarán convenciones de nombres consistentes (por ejemplo: \texttt{tabla\_socios}, \texttt{id\_socio}, \texttt{fk\_socio\_membresia}). El diseño de la base de datos se mantendrá normalizado hasta la Tercera Forma Normal (3FN), y las decisiones de diseño deberán estar documentadas en el informe final.  
+		\par\vspace{1em}
+	\item[RNF-06: Portabilidad]  
+	El sistema deberá implementarse utilizando SQLite, asegurando su ejecución en entornos Windows, macOS o Linux sin requerir configuraciones complejas más allá de Python 3.11 y las bibliotecas especificadas (Streamlit, Taipy o FastHTML). El archivo \texttt{.db} deberá ser autocontenido y fácilmente transferible entre los integrantes del equipo.  
+	\par\vspace{1em}
+			\par\vspace{4em}
+	\item[RNF-07: Documentación del Proyecto]  
+	El proyecto deberá incluir documentación técnica completa, que incorpore el modelo entidad–relación, el esquema relacional normalizado y las principales consultas SQL. Además, se elaborará un manual de usuario básico con capturas de pantalla. La documentación final se entregará en formato PDF y deberá cumplir con las normas de presentación IEEE o APA, incluyendo índice, numeración de figuras y referencias bibliográficas.  
+		\par\vspace{1em}
+	\item[RNF-08: Protección de Datos]  
+	El sistema no deberá exponer información sensible de los socios (número telefónico completo, correo electrónico o historial de pagos detallado) en listados generales ni en reportes públicos. Los datos completos estarán disponibles únicamente en la vista individual de cada socio. Asimismo, se evitará registrar información sensible en archivos de log o exportaciones automáticas.  
+	
+\end{description}
+\newpage
+
+\section{Modelado de la Base de Datos}
+
+\subsection{Modelo Entidad–Relación}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{imagenes/1d.png}
+	\caption{Modelo entidad–relación del sistema de gestión del gimnasio.}
+	\label{fig:1}
+\end{figure}
+
+	
+	El diagrama ER de la Figura~\ref{fig:1} describe el dominio mediante ocho entidades:
+	\textit{Socio}, \textit{Plan}, \textit{Suscripción}, \textit{Pago}, \textit{Clase}, \textit{Tipo},
+	\textit{Entrenador} y \textit{Reserva}. Un \textit{Socio} puede mantener varias \textit{Suscripciones}
+	(1--N); cada \textit{Suscripción} pertenece a un \textit{Plan} (N--1) y genera \textit{Pagos} (1--N).
+	Las \textit{Clases} se clasifican por \textit{Tipo} (1--N) y son dictadas por un \textit{Entrenador} (1--N).
+	La \textit{Reserva} vincula \textit{Socio} con \textit{Clase} y registra estado y asistencia, lo que permite
+	controlar capacidad (\texttt{cupo\_max}) y trazabilidad operativa.
+
+\newpage
+
+
+	\subsection{Modelo Relacional}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{imagenes/2d.png}
+		\caption{Modelo relacional del sistema de gestión del gimnasio.}
+		\label{fig:rel_gimnasio}
+	\end{figure}
+	
+
+	
+	El esquema relacional materializa las relaciones del ER con claves primarias numéricas y claves foráneas explícitas: \texttt{suscripcion(id\_socio)} y \texttt{suscripcion(id\_plan)}, \texttt{pago(id\_suscripcion)}, \texttt{clase(id\_entrenador)}, \texttt{clase(id\_tipo)}, \texttt{reserva(id\_socio)} y \texttt{reserva(id\_clase)}. Se definen dominios y restricciones
+	de integridad: estados como \textit{ENUM} (suscripción/pago/reserva), \texttt{precio} como
+	\textit{DECIMAL(10,2)}, control de capacidad mediante \texttt{cupo\_max}, unicidad en
+	\texttt{rut} y \texttt{num\_comprobante}, y la prevención de doble reserva (índice
+	\texttt{UNIQUE(id\_socio, id\_clase)}). Este diseño es consistente con el ER y está
+	normalizado hasta 3FN, lo que reduce redundancias y habilita consultas de gestión
+	(ingresos por plan, cupos y asistencia).
+
+
+\newpage
+\section{Normalización y Claves}
+
+\subsection{Normalización del Modelo Físico}
+
+El modelo físico del sistema se diseñó aplicando de manera sistemática las tres primeras formas normales (1FN, 2FN y 3FN).  
+Cada tabla fue analizada con el propósito de eliminar redundancias, garantizar dependencias funcionales completas y evitar dependencias transitivas entre atributos no clave.  
+A continuación, se presenta la justificación resumida de la normalización por entidad:
+
+\begin{itemize}
+	\item \textbf{Socio}: 1FN por atributos atómicos (\texttt{nombre}, \texttt{apellido\_p}, \texttt{direccion}, etc.);
+	2FN trivial al tener PK simple (\texttt{id\_socio}); 3FN al no existir dependencias entre atributos no clave.
+	Se garantiza unicidad de \texttt{RUT} con una restricción \texttt{UNIQUE}.
+	
+	\item \textbf{Plan}: 1FN por atributos indivisibles (\texttt{precio}, \texttt{duracion\_meses}, \texttt{limite\_clases});
+	2FN por PK simple (\texttt{id\_plan}); 3FN al no almacenar datos derivados ni dependencias entre no claves
+	(p.~ej., \texttt{precio} no depende de \texttt{duracion\_meses}). El campo \texttt{beneficio} se mantiene como texto,
+	permitiendo futuras catalogaciones sin afectar la 3FN.
+	
+	\item \textbf{Suscripcion}: 1FN por valores escalares; 2FN al depender todos los atributos de \texttt{id\_suscripcion};
+	3FN al no haber dependencias transitivas (\texttt{estado\_sus} es independiente de las fechas).
+	Los datos del socio y del plan no se duplican: se referencian mediante FK.
+	
+	\item \textbf{Pago}: 1FN por datos financieros atómicos (\texttt{monto}, \texttt{fecha\_pago});
+	2FN por PK simple (\texttt{id\_pago}); 3FN al no existir dependencia entre \texttt{metodo\_pago} y \texttt{estado\_pago}.
+	\texttt{num\_comprobante} es \texttt{UNIQUE} para trazabilidad.
+	
+	\item \textbf{Clase}: 1FN por campos indivisibles (\texttt{fecha\_hora}, \texttt{duracion\_min}, \texttt{cupo\_max});
+	2FN por PK simple (\texttt{id\_clase}); 3FN ya que \texttt{id\_tipo} e \texttt{id\_entrenador} sólo son FKs y
+	no determinan otros atributos almacenados en la misma tabla.
+	
+	\item \textbf{Tipo}: 1FN y 2FN por estructura simple (PK \texttt{id\_tipo}); 3FN al no haber atributos derivados ni transitivos.
+	
+	\item \textbf{Entrenador}: 1FN por datos atómicos; 2FN por PK simple; 3FN al no existir dependencias entre atributos no clave.
+	\texttt{RUT} se controla con \texttt{UNIQUE}.
+	
+	\item \textbf{Reserva}: 1FN por atributos atómicos (\texttt{fecha\_reserva}, \texttt{estado\_reserva}, \texttt{asistio});
+	2FN por PK simple (\texttt{id\_reserva}); 3FN al no haber relación funcional entre \texttt{asistio} y \texttt{estado\_reserva}.
+	Para evitar duplicidades operativas se define \texttt{UNIQUE(id\_socio, id\_clase)}.
+\end{itemize}
+
+En síntesis, todas las tablas cumplen la \textbf{Tercera Forma Normal (3FN)}: no hay grupos repetitivos (1FN), no existen dependencias parciales
+sobre claves compuestas (2FN, trivial por PK simples) ni dependencias transitivas entre atributos no clave (3FN).  
+El uso de FKs preserva la integridad referencial, y las restricciones \texttt{UNIQUE} y \texttt{CHECK} refuerzan la
+calidad de los datos conforme a las reglas de negocio.
+
+\newpage
+\subsection{Definición de Claves, Restricciones de Integridad y Optimizaciones}
+
+\begin{table}[H]
+	\centering
+	\caption{Claves primarias y foráneas del modelo físico}
+	\label{tab:pk_fk_gimnasio}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Entidad} & \textbf{Clave Primaria} & \textbf{Clave(s) Foránea(s)} \\ \hline
+		Socio        & id\_socio        & -- \\ \hline
+		Entrenador   & id\_entrenador   & -- \\ \hline
+		Plan         & id\_plan         & -- \\ \hline
+		Tipo         & id\_tipo         & -- \\ \hline
+		Suscripcion  & id\_suscripcion  & id\_socio (Socio), id\_plan (Plan) \\ \hline
+		Pago         & id\_pago         & id\_suscripcion (Suscripcion) \\ \hline
+		Clase        & id\_clase        & id\_tipo (Tipo), id\_entrenador (Entrenador) \\ \hline
+		Reserva      & id\_reserva      & id\_socio (Socio), id\_clase (Clase) \\ \hline
+	\end{tabular}
+\end{table}
+
+En el sistema se emplean \textbf{claves primarias enteras autoincrementales} (\texttt{id\_*}) en todas las tablas para garantizar la identificación única y la eficiencia en las relaciones.  
+Los \texttt{RUT} de Socio y Entrenador se controlan con \texttt{UNIQUE} como identificadores del mundo real, pero no se utilizan como PK.
+
+La \textbf{integridad referencial} se asegura mediante claves foráneas que materializan las relaciones 1--N del modelo entidad--relación:  
+una Suscripción referencia a su Socio y Plan; cada Pago referencia a su Suscripción;  
+cada Clase referencia a su Tipo y Entrenador; y cada Reserva referencia a un Socio y a una Clase.  
+De este modo, se evitan registros huérfanos e inconsistencias.
+
+Para la \textbf{integridad de dominio}, se definen las siguientes restricciones:
+
+\begin{enumerate}[label=(\roman*)]
+	\item Valores positivos en montos y cupos: \texttt{CHECK(monto > 0)}, \texttt{CHECK(cupo\_max > 0)}.
+	\item Fechas no nulas en eventos: \texttt{fecha\_hora}, \texttt{fecha\_pago}, \texttt{fecha\_reserva}.
+	\item Estados controlados mediante \texttt{CHECK}: \texttt{estado\_sus} $\in$ \{activa, vencida, cancelada\},  
+	\texttt{estado\_pago} $\in$ \{pendiente, completado, rechazado\},  
+	\texttt{estado\_reserva} $\in$ \{pendiente, confirmada, cancelada\};  
+	y \texttt{asistio} como valor booleano (\texttt{DEFAULT 0}).  
+	Además, \texttt{RUT} y \texttt{num\_comprobante} se declaran \texttt{UNIQUE} para asegurar trazabilidad.
+\end{enumerate}
+
+En cuanto a las \textbf{optimizaciones}, se indexan las FKs de uso frecuente:  
+\texttt{suscripcion.id\_socio}, \texttt{suscripcion.id\_plan}, \texttt{pago.id\_suscripcion},  
+\texttt{clase.id\_entrenador}, \texttt{clase.id\_tipo}, \texttt{reserva.id\_socio}, \texttt{reserva.id\_clase}.  
+También se recomienda \texttt{UNIQUE(id\_socio, id\_clase)} en Reserva para impedir una doble inscripción del mismo socio en la misma clase.  
+La regla de “una sola suscripción activa por socio” puede implementarse mediante lógica de aplicación o con un trigger.  
+El esquema se encuentra normalizado hasta la \textbf{3FN}, reduciendo redundancias y facilitando la eficiencia en las consultas y el mantenimiento.
+
+
+
+
+\newpage
+
+\section{Implementación del Modelo Físico}
+
+El modelo físico del sistema fue implementado en \textbf{SQLite}, gestionado a través de scripts en Python para asegurar la portabilidad y la carga dinámica de datos.
+Cada entidad identificada en el modelo conceptual se transformó en una tabla, definiendo sus tipos de datos, claves primarias y foráneas, así como restricciones de integridad y lógica de negocio avanzada mediante Triggers.
+
+A continuación, se presenta un fragmento representativo del código SQL utilizado.
+
+\paragraph{Entidad Socio.}
+La entidad \texttt{Socio} representa a cada miembro del gimnasio. Cada socio posee un identificador único (\texttt{id\_socio}).
+Para garantizar la integridad financiera y la trazabilidad histórica (RNF-03), se implementó un mecanismo de \textbf{Borrado Lógico (Soft Delete)}. Se añadió el atributo \texttt{activo} (con valor por defecto 1). Al eliminar un socio, el sistema no destruye el registro, sino que cambia este estado a 0. Esto evita que la eliminación accidental de un socio borre sus pagos históricos.
+
+\begin{algorithm}[H]
+	\caption{Tabla Socio (Con Soft Delete)}
+	\footnotesize
+	\begin{verbatim}
+		CREATE TABLE Socio (
+		id_socio   INTEGER       PRIMARY KEY AUTOINCREMENT,
+		RUT        VARCHAR(12)  NOT NULL UNIQUE,
+		nombre     VARCHAR(50)  NOT NULL,
+		apellido_p VARCHAR(50)  NOT NULL,
+		apellido_m VARCHAR(50),
+		fecha_nac  DATE         NOT NULL,
+		telefono   VARCHAR(12),
+		direccion  VARCHAR(100),
+		activo     INTEGER      NOT NULL DEFAULT 1, -- Soft Delete
+		CHECK (LENGTH(RUT) >= 9)
+		);
+	\end{verbatim}
+\end{algorithm}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/3.png}
+	\caption{Implementación de la tabla \texttt{Socio} con atributo de persistencia.}
+	\label{fig:socio}
+\end{figure}
+
+\newpage
+\paragraph{Entidad Suscripción.}
+La entidad \texttt{Suscripcion} almacena la información de las membresías. Las restricciones de integridad, como \texttt{CHECK (fecha\_fin > fecha\_inicio)}, aseguran la validez temporal. Aunque se define \texttt{ON DELETE CASCADE} para integridad referencial estricta, la aplicación gestiona la baja mediante el borrado lógico del socio, manteniendo los datos históricos accesibles.
+
+\begin{algorithm}[H]
+	\caption{Tabla Suscripcion}
+	\footnotesize
+	\begin{verbatim}
+		CREATE TABLE Suscripcion (
+		id_suscripcion INTEGER  PRIMARY KEY AUTOINCREMENT,
+		id_socio       INTEGER  NOT NULL,
+		id_plan        INTEGER  NOT NULL,
+		fecha_inicio   DATE     NOT NULL,
+		fecha_fin      DATE     NOT NULL,
+		estado_sus     VARCHAR(20) NOT NULL DEFAULT 'activa',
+		FOREIGN KEY (id_socio) REFERENCES Socio(id_socio) 
+		ON DELETE CASCADE ON UPDATE CASCADE,
+		FOREIGN KEY (id_plan) REFERENCES Plan(id_plan) 
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+		CHECK (estado_sus IN ('activa','vencida','cancelada')),
+		CHECK (fecha_fin > fecha_inicio)
+		);
+	\end{verbatim}
+\end{algorithm}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/4.png}
+	\caption{Implementación de la tabla \texttt{Suscripcion} en el modelo físico.}
+	\label{fig:suscripcion}
+\end{figure}
+
+
+\newpage
+
+\paragraph{Entidad Clase:}
+La entidad Clase registra la información de cada sesión programada. Mediante las claves foráneas \texttt{id\_entrenador} e \texttt{id\_tipo}, cada clase se asocia con un entrenador y un tipo de entrenamiento. Las restricciones CHECK aseguran valores válidos en la duración y el cupo.
+
+\par\vspace{1em}
+\begin{algorithm}[H]
+	\caption{Tabla Clase}
+	\footnotesize
+	\begin{verbatim}
+		CREATE TABLE Clase (
+		id_clase      INTEGER       PRIMARY KEY AUTOINCREMENT,
+		id_entrenador INTEGER       NOT NULL,
+		id_tipo       INTEGER       NOT NULL,
+		nombre        VARCHAR(100)  NOT NULL,
+		descripcion   TEXT,
+		fecha_hora    DATETIME      NOT NULL,
+		duracion_min  INTEGER       NOT NULL,
+		cupo_max      INTEGER       NOT NULL,
+		FOREIGN KEY (id_entrenador) REFERENCES Entrenador(id_entrenador),
+		FOREIGN KEY (id_tipo) REFERENCES Tipo(id_tipo),
+		CHECK (duracion_min > 0),
+		CHECK (cupo_max > 0)
+		);
+	\end{verbatim}
+\end{algorithm}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/5.png}
+	\caption{Implementación de la tabla Clase.}
+	\label{fig:clase}
+\end{figure}
+
+
+
+
+\newpage
+\paragraph{Entidad Plan.}
+La entidad \texttt{Plan} almacena la información de los tipos de membresías. Las restricciones \texttt{CHECK} garantizan que los valores numéricos (precio, duración) sean válidos y positivos.
+
+\par\vspace{1em}
+\begin{algorithm}[H]
+	\caption{Tabla Plan}
+	\footnotesize
+	\begin{verbatim}
+		CREATE TABLE Plan (
+		id_plan        INTEGER       PRIMARY KEY AUTOINCREMENT,
+		nombre_plan    VARCHAR(50)   NOT NULL UNIQUE,
+		precio         DECIMAL(10,2) NOT NULL,
+		duracion_meses INTEGER       NOT NULL,
+		limite_clases  INTEGER,
+		beneficio      TEXT,
+		descripcion    TEXT,
+		CHECK (precio > 0),
+		CHECK (duracion_meses > 0)
+		);
+	\end{verbatim}
+\end{algorithm}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/6.png}
+	\caption{Implementación de la tabla \texttt{Plan} en el modelo físico.}
+	\label{fig:plan}
+\end{figure}
+
+\newpage
+\paragraph{Entidad Reserva y Triggers de Control.}
+La entidad \texttt{Reserva} vincula a cada socio con una clase. Para robustecer la integridad de los datos más allá de la interfaz gráfica, se implementaron \textbf{Triggers (Disparadores)} a nivel de base de datos que validan reglas de negocio críticas antes de cualquier inserción:
+
+\begin{enumerate}
+	\item \textbf{Control de Aforo (\texttt{trg\_check\_cupo\_insert}):} Previene la sobreventa de cupos en entornos concurrentes, bloqueando la transacción si el cupo máximo ha sido alcanzado.
+	\item \textbf{Validación de Vigencia (\texttt{trg\_check\_vigencia\_socio}):} Impide mediante un error de base de datos que socios con membresías vencidas realicen reservas.
+\end{enumerate}
+
+\par\vspace{1em}
+\begin{algorithm}[H]
+	\caption{Tabla Reserva y Triggers}
+	\footnotesize
+	\begin{verbatim}
+		-- Tabla Base
+		CREATE TABLE Reserva (
+		id_reserva     INTEGER      PRIMARY KEY AUTOINCREMENT,
+		id_socio       INTEGER      NOT NULL,
+		id_clase       INTEGER      NOT NULL,
+		fecha_reserva  DATETIME     NOT NULL DEFAULT (DATETIME('now')),
+		estado_reserva VARCHAR(20)  NOT NULL DEFAULT 'confirmada',
+		asistio        INTEGER      DEFAULT 0,
+		FOREIGN KEY (id_socio) REFERENCES Socio(id_socio) ON DELETE CASCADE,
+		FOREIGN KEY (id_clase) REFERENCES Clase(id_clase) ON DELETE CASCADE,
+		UNIQUE (id_socio, id_clase)
+		);
+		
+		-- Trigger Anti-Sobrecupo
+		CREATE TRIGGER trg_check_cupo_insert BEFORE INSERT ON Reserva
+		BEGIN
+		SELECT CASE WHEN (SELECT COUNT(*) FROM Reserva 
+		WHERE id_clase = NEW.id_clase AND estado_reserva = 'confirmada') 
+		>= (SELECT cupo_max FROM Clase WHERE id_clase = NEW.id_clase)
+		THEN RAISE(ABORT, 'Error: CUPOS_AGOTADOS') END;
+		END;
+	\end{verbatim}
+\end{algorithm}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/7.png}
+	\caption{Implementación de la tabla \texttt{Reserva} y lógica de triggers.}
+	\label{fig:reserva}
+\end{figure}
+
+\newpage
+\paragraph{Entidad Pago.}
+La entidad \texttt{Pago} registra las transacciones financieras. Para asegurar la calidad de los datos contables, se definieron restricciones de dominio estrictas mediante \texttt{CHECK}, impidiendo el registro de montos negativos o métodos de pago no válidos.
+
+\par\vspace{1em}
+\begin{algorithm}[H]
+	\caption{Tabla Pago}
+	\footnotesize
+	\begin{verbatim}
+		CREATE TABLE Pago (
+		id_pago           INTEGER      PRIMARY KEY AUTOINCREMENT,
+		id_suscripcion    INTEGER      NOT NULL,
+		fecha_pago        DATE         NOT NULL DEFAULT (DATE('now')),
+		monto             DECIMAL(10,2) NOT NULL,
+		metodo_pago       VARCHAR(50)  NOT NULL,
+		estado_pago       VARCHAR(20)  NOT NULL DEFAULT 'completado',
+		num_comprobante   VARCHAR(50),
+		FOREIGN KEY (id_suscripcion) REFERENCES Suscripcion(id_suscripcion)
+		ON DELETE CASCADE ON UPDATE CASCADE,
+		CHECK (monto > 0),
+		CHECK (metodo_pago IN ('transferencia','webpay','tarjeta','efectivo'))
+		);
+	\end{verbatim}
+\end{algorithm}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/8.png}
+	\caption{Implementación de la tabla \texttt{Pago} en el modelo físico.}
+	\label{fig:pago}
+\end{figure}
+
+\newpage
+\paragraph{Entidad Tipo y Entrenador.}
+Estas tablas maestras (Catálogos) permiten la normalización de los datos de clases, evitando redundancias.
+
+\par\vspace{1em}
+\begin{algorithm}[H]
+	\caption{Tablas Tipo y Entrenador}
+	\footnotesize
+	\begin{verbatim}
+		CREATE TABLE Tipo (
+		id_tipo INTEGER PRIMARY KEY AUTOINCREMENT,
+		nombre  VARCHAR(50) NOT NULL UNIQUE,
+		descripcion TEXT
+		);
+		
+		CREATE TABLE Entrenador (
+		id_entrenador INTEGER PRIMARY KEY AUTOINCREMENT,
+		RUT           VARCHAR(12) NOT NULL UNIQUE,
+		nombre        VARCHAR(50) NOT NULL,
+		apellido      VARCHAR(50) NOT NULL,
+		fecha_nac     DATE        NOT NULL,
+		especialidad  VARCHAR(80) NOT NULL
+		);
+	\end{verbatim}
+\end{algorithm}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/10.png}
+	\caption{Implementación de tablas catálogo.}
+	\label{fig:entrenador}
+\end{figure}
+
+
+\newpage
+
+\subsection{Vistas del Sistema}
+
+Se implementaron vistas para facilitar la generación de reportes y validar la integridad de los datos sin requerir consultas complejas recurrentes.
+
+\paragraph{Historial de pagos:} Combina información de Pagos, Socios y Planes para reportes financieros.
+\paragraph{Socios Vigentes y No Vigentes:} Vistas estratégicas que filtran usuarios basándose en la fecha actual y el estado de su última suscripción, facilitando el control de acceso.
+
+\begin{algorithm}[H]
+	\caption{Vista v\_socios\_vigentes}
+	\footnotesize
+	\begin{verbatim}
+		CREATE VIEW v_socios_vigentes AS
+		WITH ult AS (
+		SELECT id_socio, MAX(fecha_fin) AS fecha_fin_max
+		FROM Suscripcion GROUP BY id_socio
+		)
+		SELECT s.RUT, s.nombre, p.nombre_plan, sus.fecha_fin
+		FROM ult
+		JOIN Suscripcion sus ON sus.id_socio = ult.id_socio 
+		AND sus.fecha_fin = ult.fecha_fin_max
+		JOIN Socio s ON s.id_socio = sus.id_socio
+		WHERE sus.estado_sus = 'activa' 
+		AND DATE(sus.fecha_fin) >= DATE('now','localtime');
+	\end{verbatim}
+\end{algorithm}
+
+
+\subsection{Carga de Datos Dinámica}
+
+En lugar de utilizar scripts SQL estáticos con fechas fijas (que quedan obsoletos rápidamente), el sistema implementa un módulo de \textbf{Inyección de Datos Dinámicos} (Smart Seeding). 
+
+Este algoritmo, ejecutado al iniciar la aplicación, calcula fechas relativas al momento de la ejecución (ayer, hoy, mañana). Esto asegura que, sin importar la fecha en que se evalúe el proyecto, el Dashboard siempre muestre reportes de "los últimos 7 días" con datos relevantes y las validaciones de vigencia funcionen correctamente con fechas actuales.
+
+
+\newpage
+
+\section{Desarrollo de Funcionalidades Básicas e Interfaz}
+
+Las funcionalidades CRUD (Create, Read, Update, Delete) constituyen la base de la interacción con el sistema. En GymLite, estas operaciones están reforzadas por validaciones de integridad en el backend.
+
+\subsection{Validación de las operaciones CRUD}
+
+\begin{enumerate}[label=\Roman*.]
+	\item CREATE: Inserción de nuevos socios con validación de unicidad de RUT.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{imagenes/insertar.png}
+		\caption{Formulario de registro de socio.}
+	\end{figure}
+	
+	\item READ: Listado y filtrado de socios y estados de cuenta.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{imagenes/Lectura.png}
+		\caption{Vista de consulta de datos.}
+	\end{figure}
+\newpage
+	\item UPDATE: Modificación de datos de contacto o renovación de planes.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{imagenes/actualizar.png}
+		\caption{Actualización de registro existente.}
+	\end{figure}
+	
+	\item DELETE (Borrado Lógico):
+	Esta operación ya no elimina físicamente el registro (lo que perdería el historial de pagos). En su lugar, realiza una actualización de estado (\texttt{UPDATE Socio SET activo=0}).
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{imagenes/Eliminar.png}
+		\caption{Acción de eliminación que ejecuta un Soft Delete.}
+	\end{figure}
+\end{enumerate}
+
+\newpage
+\section{Interfaz Gráfica de Usuario (GUI)}
+
+La interfaz del sistema \textit{GymLite} ha sido desarrollada utilizando la librería \texttt{Streamlit}, priorizando la usabilidad (RNF-01) y la eficiencia en la navegación. El diseño implementa un esquema de colores oscuro (\textit{Dark Mode}) para reducir la fatiga visual y resaltar las alertas críticas mediante contrastes de color semánticos (verde para éxito, rojo para errores o alertas).
+
+A continuación, se detallan los módulos principales del sistema:
+
+\subsection{Dashboard Gerencial}
+El panel de control principal actúa como el centro de inteligencia del negocio. A diferencia de reportes estáticos, este módulo se alimenta de consultas SQL dinámicas que calculan indicadores clave de rendimiento (KPIs) en tiempo real.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/inter2.png}
+	\caption{Vista superior del Dashboard con métricas clave (Socios Activos, Ingresos, Reservas) y alertas de sistema.}
+	\label{fig:dashboard_top}
+\end{figure}
+
+Además de los indicadores numéricos, el Dashboard incluye visualizaciones gráficas interactivas generadas con la librería \texttt{Plotly}, permitiendo analizar la evolución de reservas y la distribución de ingresos por método de pago durante los últimos 7 días.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/inter3.png}
+	\caption{Sección analítica del Dashboard mostrando la evolución temporal de reservas y clases (datos dinámicos).}
+	\label{fig:dashboard_graphs}
+\end{figure}
+
+\newpage
+\subsection{Módulo de Gestión de Socios}
+Este módulo centraliza todas las operaciones relacionadas con los miembros del gimnasio. La vista principal ofrece un listado paginado de todos los socios activos, permitiendo una visualización rápida de su estado.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/socios.png}
+	\caption{Listado general de socios con información de contacto y estado.}
+	\label{fig:lista_socios}
+\end{figure}
+
+\subsubsection{Registro y Mantenimiento}
+El formulario de registro implementa validaciones en el lado del cliente (frontend) antes de enviar los datos a la base de datos, asegurando que campos críticos como el RUT o la fecha de nacimiento cumplan con el formato esperado.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/regitro.png}
+	\caption{Formulario de registro de nuevos socios con validación de campos obligatorios.}
+	\label{fig:registro_socio}
+\end{figure}
+
+Para la modificación de datos, se incluye una funcionalidad de búsqueda por RUT que carga automáticamente la información del socio, permitiendo editar detalles de contacto o ejecutar la baja lógica (Soft Delete) del sistema.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/buscar.png}
+	\caption{Módulo de búsqueda y edición de datos de socios.}
+	\label{fig:buscar_socio}
+\end{figure}
+
+\newpage
+\subsection{Gestión de Reservas y Clases}
+El sistema de reservas es el punto crítico de la operación diaria. La interfaz permite visualizar las clases disponibles, mostrando en tiempo real el cupo restante (calculado mediante: $Cupo_{max} - Reservas_{confirmadas}$).
+Al intentar realizar una reserva, el sistema captura las excepciones lanzadas por los \textbf{Triggers} de la base de datos (como sobrecupo o morosidad) y las presenta al usuario como mensajes de error claros y descriptivos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/reserva.png}
+	\caption{Interfaz de reserva de clases. Se destaca el indicador de cupos disponibles y el selector de socios.}
+	\label{fig:reserva_clases}
+\end{figure}
+
+\subsection{Módulo de Pagos y Caja}
+Esta sección facilita el registro de transacciones financieras. El sistema está diseñado para prevenir inconsistencias: al seleccionar un socio, verifica automáticamente si posee una suscripción activa a la cual asociar el pago. Si no existe, el sistema sugiere la creación de una nueva suscripción antes de procesar el cobro, garantizando la integridad referencial (RNF-03).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{imagenes/pagos.png}
+	\caption{Módulo de registro de pagos, mostrando la asociación automática con la suscripción vigente.}
+	\label{fig:pagos}
+\end{figure}
+
+
+
+\newpage
+\appendix
+\section{Manual de Instalación y Despliegue}
+
+Para garantizar la correcta ejecución del sistema y resolver las observaciones sobre la configuración del entorno, se detalla el procedimiento de instalación automática.
+
+\subsection{Requisitos Previos}
+\begin{itemize}
+	\item Sistema Operativo: Windows 10/11, macOS o Linux.
+	\item Python 3.10 o superior instalado.
+\end{itemize}
+
+\subsection{Instalación de Dependencias}
+El proyecto incluye un archivo \texttt{requirements.txt} con las versiones exactas de las librerías necesarias.
+\begin{enumerate}
+	\item Abra una terminal en la carpeta raíz del proyecto.
+	\item Ejecute el comando:
+	\begin{verbatim}
+		pip install -r requirements.txt
+	\end{verbatim}
+\end{enumerate}
+
+\subsection{Ejecución y Auto-Configuración}
+El sistema cuenta con un mecanismo de \textit{Self-Healing}. Al ejecutarse por primera vez, detecta la ausencia de la base de datos y ejecuta automáticamente los scripts de creación de tablas, triggers y carga de datos dinámicos.
+
+\begin{enumerate}
+	\item Ejecute el comando de inicio:
+	\begin{verbatim}
+		streamlit run app.py
+	\end{verbatim}
+	\item El sistema abrirá automáticamente el navegador.
+	\item Credenciales de administrador por defecto:
+	\begin{itemize}
+		\item \textbf{Usuario:} \texttt{admin}
+		\item \textbf{Contraseña:} \texttt{Admin1234!}
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+\section{Conclusión}
+
+El desarrollo del sistema \textit{GymLite} ha permitido la implementación exitosa de una solución tecnológica integral para la gestión deportiva, superando las limitaciones de los procesos manuales y fragmentados identificados en la definición del problema.
+
+Más allá del cumplimiento de los requisitos funcionales básicos (CRUD), el valor técnico del proyecto reside en las decisiones arquitectónicas adoptadas para garantizar la **integridad y confiabilidad** de la información:
+
+\begin{itemize}
+	\item \textbf{Integridad Referencial Avanzada:} La sustitución del borrado físico por un mecanismo de \textbf{Borrado Lógico (Soft Delete)} asegura la persistencia histórica de los datos financieros, permitiendo auditorías futuras sin comprometer la consistencia de la base de datos.
+	
+	\item \textbf{Lógica de Negocio en Capa de Datos:} La implementación de \textbf{Triggers} para el control de aforo y validación de vigencias traslada reglas críticas de negocio directamente al motor de base de datos. Esto blinda al sistema contra errores de concurrencia (Race Conditions) que una validación únicamente a nivel de aplicación no podría garantizar.
+	
+	\item \textbf{Experiencia de Usuario y Despliegue:} La incorporación de mecanismos de \textit{Smart Seeding} (carga dinámica de datos) y la automatización del despliegue facilitan la adoptabilidad del software, reduciendo la fricción en la instalación y permitiendo visualizar métricas de negocio en tiempo real desde el primer uso.
+\end{itemize}
+
+En definitiva, el sistema entregado no solo satisface la necesidad operativa de centralizar la información, sino que establece una base escalable, segura y mantenible, alineada con los estándares de ingeniería de software y bases de datos modernas.
+\end{document}
+

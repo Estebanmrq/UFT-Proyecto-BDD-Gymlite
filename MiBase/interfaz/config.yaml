@@ -1,0 +1,25 @@
+# config.yaml - Configuración de usuarios y autenticación
+
+credentials:
+  usernames:
+    tomas:
+      name: Tomas Tamayo
+      email: tomastamayoniko12@gmail.com
+      # Password: password123 (hasheado con bcrypt)
+      password: "$2b$12$QZqDEfrdtN/cF7LNlDnztezfLmzArLp.ND/biHItwL/DvYnqHfy3q"
+
+    admin:
+      name: Administrador
+      email: admin@gymlite.com
+      # Password: admin123 (hasheado con bcrypt)
+      password: "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW"
+
+cookie:
+  name: "gymlite-auth-cookie"
+  key: "cambia_esta_clave_super_secreta_y_larga_123456789"
+  expiry_days: 7
+
+preauthorized:
+  emails:
+    - admin@gymlite.com
+    - alanolivaheredia@gmail.com
